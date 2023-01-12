@@ -6,20 +6,12 @@ const messageField = form.querySelector('textarea[name="message"]');
 const formData = {};
 
 form.addEventListener('submit', onSubmitClearFieldsAndStorage);
-emailField.addEventListener('input', throttle(onEmailInput, 500));
-messageField.addEventListener('input', throttle(onTextareaInput, 500));
+form.addEventListener('input', throttle(onInputForm, 500));
 
 checkLocalStorage();
 
-function onEmailInput(evt) {
-  const email = evt.target.value;
-  formData.email = email;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-}
-
-function onTextareaInput(evt) {
-  const message = evt.target.value;
-  formData.message = message;
+function onInputForm(evt) {
+  formData[evt.target.name] = evt.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
@@ -41,7 +33,6 @@ function onSubmitClearFieldsAndStorage(evt) {
 function checkLocalStorage() {
   const dataLocal = localStorage.getItem(STORAGE_KEY);
   const dataLocalParse = JSON.parse(dataLocal);
-
   if (dataLocalParse?.email) {
     emailField.value = dataLocalParse.email;
   }
