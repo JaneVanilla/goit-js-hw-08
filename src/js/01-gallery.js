@@ -1,14 +1,14 @@
 // Add imports above this line
-import { galleryItems } from "./gallery-items";
+import { galleryItems } from './gallery-items';
 // Change code below this line
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector(".gallery");
+const gallery = document.querySelector('.gallery');
 const galleryCards = createItemsForGallery(galleryItems);
 
-gallery.insertAdjacentHTML("beforeend", galleryCards);
-let lightbox = new SimpleLightbox(".gallery__item", {
+gallery.insertAdjacentHTML('beforeend', galleryCards);
+let lightbox = new SimpleLightbox('.gallery__item', {
   captionDelay: 250,
 });
 function createItemsForGallery(items) {
@@ -20,5 +20,5 @@ function createItemsForGallery(items) {
 		</a>
 	`;
     })
-    .join("");
+    .join('');
 }
