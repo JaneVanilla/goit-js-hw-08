@@ -3,7 +3,7 @@ const STORAGE_KEY = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
 const emailField = form.querySelector('input[type="email"]');
 const messageField = form.querySelector('textarea[name="message"]');
-const formData = {};
+let formData = {};
 
 form.addEventListener('submit', onSubmitClearFieldsAndStorage);
 form.addEventListener('input', throttle(onInputForm, 500));
@@ -11,12 +11,12 @@ form.addEventListener('input', throttle(onInputForm, 500));
 checkLocalStorage();
 
 function onInputForm(evt) {
-  //console.log(formData);
-  const dataLocal = localStorage.getItem(STORAGE_KEY);
-  const dataLocalParse = JSON.parse(dataLocal);
-  Object.assign(formData, dataLocalParse);
+  if (localStorage.getItem(STORAGE_KEY)) {
+    const dataLocal = localStorage.getItem(STORAGE_KEY);
+    const dataLocalParse = JSON.parse(dataLocal);
+    Object.assign(formData, dataLocalParse);
+  }
   formData[evt.target.name] = evt.target.value;
-
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
@@ -43,4 +43,5 @@ function onSubmitClearFieldsAndStorage(evt) {
   console.log(formDataCurrent);
   evt.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
+  Object.keys(formData).forEach(key => delete formData[key]);
 }
