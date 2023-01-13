@@ -11,23 +11,13 @@ form.addEventListener('input', throttle(onInputForm, 500));
 checkLocalStorage();
 
 function onInputForm(evt) {
+  //console.log(formData);
+  const dataLocal = localStorage.getItem(STORAGE_KEY);
+  const dataLocalParse = JSON.parse(dataLocal);
+  Object.assign(formData, dataLocalParse);
   formData[evt.target.name] = evt.target.value;
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-}
-
-function onSubmitClearFieldsAndStorage(evt) {
-  evt.preventDefault();
-  evt.currentTarget.reset();
-  localStorage.removeItem(STORAGE_KEY);
-
-  let elements = evt.currentTarget.elements;
-  let email = elements.email.value;
-  let message = elements.message.value;
-  const formDataCurrent = {
-    email,
-    message,
-  };
-  console.log(formDataCurrent);
 }
 
 function checkLocalStorage() {
@@ -39,4 +29,18 @@ function checkLocalStorage() {
   if (dataLocalParse?.message) {
     messageField.value = dataLocalParse.message;
   }
+}
+
+function onSubmitClearFieldsAndStorage(evt) {
+  evt.preventDefault();
+  let elements = evt.currentTarget.elements;
+  let email = elements.email.value;
+  let message = elements.message.value;
+  const formDataCurrent = {
+    email,
+    message,
+  };
+  console.log(formDataCurrent);
+  evt.currentTarget.reset();
+  localStorage.removeItem(STORAGE_KEY);
 }
